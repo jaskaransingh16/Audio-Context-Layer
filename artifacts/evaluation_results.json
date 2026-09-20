@@ -1,0 +1,39 @@
+{
+  "overall": {
+    "exact_match_accuracy": 61.6,
+    "total_test_samples": 1500,
+    "bleu1": 0.5051,
+    "bleu4": 0.0,
+    "rouge_l": 0.5271
+  },
+  "category_breakdown": {
+    "perceptual": {
+      "accuracy": 70.6,
+      "sample_count": 483,
+      "bleu1": 0.5293,
+      "bleu4": 0.0,
+      "rouge_l": 0.5762
+    },
+    "counting": {
+      "accuracy": 69.89,
+      "sample_count": 621,
+      "bleu1": 0.6989,
+      "bleu4": 0.0,
+      "rouge_l": 0.6989
+    },
+    "temporal": {
+      "accuracy": 21.59,
+      "sample_count": 315,
+      "bleu1": 0.2159,
+      "bleu4": 0.0,
+      "rouge_l": 0.2159
+    },
+    "causal": {
+      "accuracy": 100.0,
+      "sample_count": 81,
+      "bleu1": 0.0,
+      "bleu4": 0.0,
+      "rouge_l": 0.1272
+    }
+  }
+}

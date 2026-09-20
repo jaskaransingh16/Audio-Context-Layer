@@ -1,0 +1,32 @@
+{
+  "dataset_name": "SoundContextQA",
+  "sample_rate": 16000,
+  "num_samples": 1000,
+  "total_qa_pairs": 19046,
+  "splits": {
+    "train_samples": 700,
+    "val_samples": 150,
+    "test_samples": 150
+  },
+  "category_distribution": {
+    "perceptual": 6000,
+    "counting": 8000,
+    "temporal": 4046,
+    "causal": 1000
+  },
+  "event_classes": [
+    "beep",
+    "bark",
+    "footstep",
+    "bell",
+    "siren",
+    "drip",
+    "engine"
+  ],
+  "environments": [
+    "rain",
+    "wind",
+    "office",
+    "quiet"
+  ]
+}

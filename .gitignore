@@ -1,0 +1,25 @@
+# Python virtual environments & bytecode
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE & Editor metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Large dataset audio files (keep sample benchmark audio clips sample_0000.wav - sample_0009.wav committed)
+data/sound_context_qa/audio/*.wav
+!data/sound_context_qa/audio/sample_000[0-9].wav
+
+# PyTorch checkpoints / temporary files
+*.tmp
+*.log

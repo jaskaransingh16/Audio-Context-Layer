@@ -1,0 +1,152 @@
+[
+  {
+    "question": "Which sound event has the longest continuous duration in the clip?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the total number of sound events in the recording?",
+    "ground_truth": "5",
+    "prediction": "3",
+    "category": "counting"
+  },
+  {
+    "question": "Which sound event has the longest continuous duration in the clip?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What sound event occurs immediately after the initial bark?",
+    "ground_truth": "beep",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "How many times does the engine sound occur in the audio?",
+    "ground_truth": "1",
+    "prediction": "0",
+    "category": "counting"
+  },
+  {
+    "question": "What is the last sound event that occurs in the audio clip?",
+    "ground_truth": "drip",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What background acoustic environment is present in this audio clip?",
+    "ground_truth": "rain",
+    "prediction": "office",
+    "category": "perceptual"
+  },
+  {
+    "question": "What sound event occurs immediately after the initial footstep?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What background acoustic environment is present in this audio clip?",
+    "ground_truth": "rain",
+    "prediction": "office",
+    "category": "perceptual"
+  },
+  {
+    "question": "What is the first sound event that occurs in the audio clip?",
+    "ground_truth": "beep",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "Is the background environment characterized by quiet?",
+    "ground_truth": "yes",
+    "prediction": "no",
+    "category": "perceptual"
+  },
+  {
+    "question": "What is the last sound event that occurs in the audio clip?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the first sound event that occurs in the audio clip?",
+    "ground_truth": "drip",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the first sound event that occurs in the audio clip?",
+    "ground_truth": "engine",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the first sound event that occurs in the audio clip?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "Which sound event has the longest continuous duration in the clip?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the total number of sound events in the recording?",
+    "ground_truth": "5",
+    "prediction": "3",
+    "category": "counting"
+  },
+  {
+    "question": "How many times does the beep sound occur in the audio?",
+    "ground_truth": "1",
+    "prediction": "0",
+    "category": "counting"
+  },
+  {
+    "question": "What is the total number of sound events in the recording?",
+    "ground_truth": "2",
+    "prediction": "3",
+    "category": "counting"
+  },
+  {
+    "question": "What sound event occurs immediately after the initial siren?",
+    "ground_truth": "siren",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "What is the last sound event that occurs in the audio clip?",
+    "ground_truth": "bark",
+    "prediction": "bell",
+    "category": "temporal"
+  },
+  {
+    "question": "Is the background environment characterized by wind?",
+    "ground_truth": "yes",
+    "prediction": "no",
+    "category": "perceptual"
+  },
+  {
+    "question": "What background acoustic environment is present in this audio clip?",
+    "ground_truth": "quiet",
+    "prediction": "office",
+    "category": "perceptual"
+  },
+  {
+    "question": "How many times does the bell sound occur in the audio?",
+    "ground_truth": "1",
+    "prediction": "0",
+    "category": "counting"
+  },
+  {
+    "question": "What is the last sound event that occurs in the audio clip?",
+    "ground_truth": "bark",
+    "prediction": "bell",
+    "category": "temporal"
+  }
+]

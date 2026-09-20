@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Context Layer - Grounded Audio Question Answering</title>
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Attention Heatmaps & Metrics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Header -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-waveform"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Audio Context Layer</h1>
+                    <span class="badge">v1.0</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active" data-target="demo-section"><i class="fa-solid fa-play"></i> Playground</button>
+                <button class="nav-btn" data-target="benchmark-section"><i class="fa-solid fa-chart-simple"></i> Benchmarks</button>
+                <button class="nav-btn" data-target="architecture-section"><i class="fa-solid fa-code-branch"></i> Architecture</button>
+            </nav>
+        </header>
+
+        <!-- Main Content Layout -->
+        <main class="main-content">
+            
+            <!-- SECTION 1: LIVE INTERACTIVE PLAYGROUND -->
+            <section id="demo-section" class="tab-page active">
+                <div class="hero-banner">
+                    <h2>Temporal Audio Context Grounding</h2>
+                    <p>Natural language question answering grounded in continuous acoustic signals.</p>
+                </div>
+
+                <div class="playground-grid">
+                    <!-- Left Panel: Audio Selection & Control -->
+                    <div class="ui-panel panel-left">
+                        <div class="panel-header">
+                            <h3>Audio Source</h3>
+                            <div class="toggle-mode">
+                                <button class="mode-btn active" id="btn-mode-preset">Dataset Sample</button>
+                                <button class="mode-btn" id="btn-mode-upload">Upload WAV</button>
+                            </div>
+                        </div>
+
+                        <!-- Preset Samples View -->
+                        <div id="preset-container" class="input-view active">
+                            <label class="input-label">Test Clip</label>
+                            <select id="sample-select" class="custom-select">
+                                <option value="">Loading samples...</option>
+                            </select>
+                            
+                            <div id="sample-metadata-box" class="metadata-box hidden">
+                                <div class="meta-item"><span class="meta-key">Environment</span> <span id="meta-env" class="meta-val">Rain</span></div>
+                                <div class="meta-item"><span class="meta-key">Duration</span> <span id="meta-dur" class="meta-val">7.2s</span></div>
+                                <div class="meta-item"><span class="meta-key">Events</span> <span id="meta-events" class="meta-val">Beep, Bark</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Upload View -->
+                        <div id="upload-container" class="input-view">
+                            <div class="upload-dropzone" id="dropzone">
+                                <i class="fa-solid fa-file-audio upload-icon"></i>
+                                <p>Select or drag a WAV file here</p>
+                                <input type="file" id="file-input" accept="audio/wav,audio/x-wav" class="hidden-input">
+                                <span id="file-name-display" class="file-name">No file selected</span>
+                            </div>
+                        </div>
+
+                        <!-- Audio Waveform Player -->
+                        <div class="audio-player-card">
+                            <audio id="audio-element" controls></audio>
+                            <div class="waveform-canvas-container">
+                                <canvas id="waveform-canvas"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Question Input Card -->
+                        <div class="question-card">
+                            <label class="input-label">Question Prompt</label>
+                            <div class="input-group">
+                                <input type="text" id="question-input" placeholder="e.g. How many times does the beep sound occur?" autocomplete="off">
+                                <button id="btn-submit-qa" class="btn-primary">Run</button>
+                            </div>
+
+                            <div class="preset-questions">
+                                <span class="qs-label">Sample queries</span>
+                                <div class="qs-chips">
+                                    <button class="chip-btn" data-q="What background acoustic environment is present in this audio clip?">Environment</button>
+                                    <button class="chip-btn" data-q="How many times does the beep sound occur in the audio?">Count Beeps</button>
+                                    <button class="chip-btn" data-q="What sound event occurs first in the audio clip?">First Event</button>
+                                    <button class="chip-btn" data-q="Why did the siren sound in the recording?">Causal Trigger</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Model Prediction & Attention Grounding -->
+                    <div class="ui-panel panel-right">
+                        <div class="panel-header">
+                            <h3>Model Prediction & Grounding</h3>
+                            <span id="status-badge" class="status-badge ready">Ready</span>
+                        </div>
+
+                        <div id="response-container">
+                            <!-- Answer Card -->
+                            <div class="answer-card">
+                                <div class="ans-header">
+                                    <span class="ans-label">Answer</span>
+                                    <span id="cat-badge" class="cat-badge perceptual">Perceptual</span>
+                                </div>
+                                <div id="answer-text" class="ans-value">Select an audio sample and submit a question to view model predictions.</div>
+                            </div>
+
+                            <!-- Temporal Attention Heatmap Visualizer -->
+                            <div class="viz-card">
+                                <div class="viz-header">
+                                    <h4>Temporal Cross-Attention (&alpha;<sub>i,t</sub>)</h4>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="attention-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Mel Spectrogram Rendering -->
+                            <div class="viz-card">
+                                <div class="viz-header">
+                                    <h4>Mel-Spectrogram Representation</h4>
+                                </div>
+                                <div class="spectrogram-container">
+                                    <canvas id="spectrogram-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: BENCHMARK EVALUATION METRICS -->
+            <section id="benchmark-section" class="tab-page">
+                <div class="hero-banner">
+                    <h2>Evaluation Benchmarks</h2>
+                    <p>Quantitative evaluation on the SoundContextQA test split across standard metrics.</p>
+                </div>
+
+                <div class="benchmark-grid">
+                    <div class="ui-panel metric-card-row">
+                        <div class="metric-box">
+                            <span class="m-val" id="metric-em">61.6%</span>
+                            <span class="m-label">Exact Match Accuracy</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="m-val" id="metric-bleu1">0.505</span>
+                            <span class="m-label">BLEU-1 Score</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="m-val" id="metric-bleu4">0.000</span>
+                            <span class="m-label">BLEU-4 Score</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="m-val" id="metric-rouge">0.527</span>
+                            <span class="m-label">ROUGE-L Score</span>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-details-grid">
+                        <div class="ui-panel">
+                            <h3>Category Performance</h3>
+                            <div class="chart-wrapper-lg">
+                                <canvas id="breakdown-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="ui-panel">
+                            <h3>Test Split Results</h3>
+                            <table class="benchmark-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Samples</th>
+                                        <th>Exact Match</th>
+                                        <th>BLEU-1</th>
+                                        <th>ROUGE-L</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="benchmark-table-body">
+                                    <tr><td>Perceptual</td><td>600</td><td>70.6%</td><td>0.529</td><td>0.576</td></tr>
+                                    <tr><td>Counting</td><td>442</td><td>69.9%</td><td>0.699</td><td>0.699</td></tr>
+                                    <tr><td>Temporal</td><td>308</td><td>21.6%</td><td>0.216</td><td>0.216</td></tr>
+                                    <tr><td>Causal</td><td>150</td><td>100.0%</td><td>0.000</td><td>0.127</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ARCHITECTURE & METHODOLOGY -->
+            <section id="architecture-section" class="tab-page">
+                <div class="hero-banner">
+                    <h2>System Architecture</h2>
+                    <p>Overview of the AudioContextTransformerQA pipeline and contextual fusion mechanism.</p>
+                </div>
+
+                <div class="ui-panel arch-container">
+                    <div class="arch-flow">
+                        <div class="arch-node">
+                            <span class="step-num">01</span>
+                            <h4>Audio Input (16kHz)</h4>
+                            <p>STFT extraction mapping raw audio into 80 Mel-frequency channels.</p>
+                        </div>
+
+                        <div class="arch-node">
+                            <span class="step-num">02</span>
+                            <h4>Temporal Audio Encoder</h4>
+                            <p>2D Conv Stem + 4-Layer Self-Attention Transformer Encoder.</p>
+                        </div>
+
+                        <div class="arch-node active-node">
+                            <span class="step-num">03</span>
+                            <h4>Cross-Attention Fusion</h4>
+                            <p>Question query tokens cross-attend over temporal audio frame representations.</p>
+                        </div>
+
+                        <div class="arch-node">
+                            <span class="step-num">04</span>
+                            <h4>Classification Head</h4>
+                            <p>Multi-task vocabulary decoder outputting grounded answers.</p>
+                        </div>
+                    </div>
+
+                    <div class="design-notes">
+                        <h3>Key Implementation Details</h3>
+                        <ul>
+                            <li><strong>Temporal Grounding:</strong> Retaining temporal frame tokens instead of global pooling preserves sequence order and exact event counts.</li>
+                            <li><strong>Positional Encoding:</strong> Sinusoidal frame encodings allow resolving relative temporal positions ("first", "after", "duration").</li>
+                            <li><strong>Synthesized Dataset:</strong> Deterministic 16kHz audio synthesis with exact timestamp annotations for reproducible benchmarking.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
