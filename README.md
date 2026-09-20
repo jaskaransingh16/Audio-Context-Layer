@@ -61,7 +61,7 @@ audio_project/
 
 ### 1. Clone Repository & Install Dependencies
 ```bash
-git clone <your-github-repo-url>
+git clone https://github.com/jaskaransingh16/Audio-Context-Layer.git
 cd audio_project
 
 # Install required Python packages
